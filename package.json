@@ -11,7 +11,7 @@
     "run": "node dist/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "keyno",
   "license": "ISC",
   "devDependencies": {
     "typescript": "^4.3.5"
