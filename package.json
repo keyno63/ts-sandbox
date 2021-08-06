@@ -1,0 +1,19 @@
+{
+  "name": "ts-sandbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install_ts": "npm install typescript --save-dev",
+    "ts_init": "npx tsc --init",
+    "build": "npx tsc",
+    "run": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  }
+}
