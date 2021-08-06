@@ -12,7 +12,7 @@
   },
   "keywords": [],
   "author": "keyno",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "typescript": "^4.3.5"
   }
