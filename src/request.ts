@@ -53,10 +53,10 @@ class GithubApiData3 {
     id: number
     url: string
     title: string
-    created_at: string
-    updated_at: string
+    created_at: number
+    updated_at: number
 
-    constructor(id: number, url: string, title: string, created_at: string, updated_at: string) {
+    constructor(id: number, url: string, title: string, created_at: number, updated_at: number) {
         this.id = id;
         this.url = url;
         this.title = title;
@@ -80,8 +80,8 @@ const change = (data: Array<GithubApiData2>) => {
             pr.id,
             pr.url,
             pr.title,
-            pr.created_at,
-            pr.updated_at
+            new Date(pr.created_at).getTime(),
+            new Date(pr.updated_at).getTime()
         )
     })
 }
