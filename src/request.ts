@@ -18,7 +18,7 @@ function call() {
     const v : GithubApiData = new GithubApiData();
     console.log(v.isMiyamoto());
 
-    const v1 : GithubApiData = new GithubApiData("hoge");
+    const v1 : GithubApiData = new GithubApiData("Miyamoto");
     console.log(v1.isMiyamoto());
 }
 
