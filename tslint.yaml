@@ -1,0 +1,15 @@
+extends:
+  - tslint:recommended
+  - tslint-config-prettier
+rules:
+  # console log 出力を慣れるまでは一時的に許可したい
+  no-console: false
+  interface-name:
+    - true
+    - never-prefix
+  max-classes-per-file: false
+  variable-name:
+    options:
+      - allow-leading-underscore
+  quotemark:
+    options: double
