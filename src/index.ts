@@ -13,7 +13,7 @@ dt.setDate(dt.getDate() - 7)
 getPRData(20)
     .then(issues => {
         const ret = issues
-            .filter(issue => issue.state === "closed" && issue.closed_at > dt.getTime())
+            .filter(issue => issue.state === "closed" && issue.closedAt > dt.getTime())
 
         console.log("closed recent prs.")
         console.log(ret)
@@ -23,7 +23,7 @@ getPRData(20)
 getIssueData(20)
     .then(issues => {
         const ret = issues
-            .filter(issue => issue.state === "closed" && issue.closed_at > dt.getTime())
+            .filter(issue => issue.state === "closed" && issue.closedAt > dt.getTime())
 
         console.log("closed recent issues.")
         console.log(ret)

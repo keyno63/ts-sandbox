@@ -14,20 +14,12 @@ class GithubApiData {
     }
 }
 
-function call() {
-    const v : GithubApiData = new GithubApiData();
-    console.log(v.isMiyamoto());
-
-    const v1 : GithubApiData = new GithubApiData("Miyamoto");
-    console.log(v1.isMiyamoto());
-}
-
 const targetBaseUrl = "https://api.github.com/repos"
 const apiClient = axios.create({
     baseURL: targetBaseUrl,
-    responseType: 'json',
+    responseType: "json",
     headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
     }
 });
 
@@ -47,10 +39,10 @@ type GithubApiPRResponse = {
     state: string
     url: string
     title: string
-    created_at: string
-    updated_at: string
-    closed_at: string
-    merged_at: string
+    createdAt: string
+    updatedAt: string
+    closedAt: string
+    mergedAt: string
 }
 
 type GithubApiIssueResponse = {
@@ -60,11 +52,11 @@ type GithubApiIssueResponse = {
     state: string
     url: string
     title: string
-    labels: Array<Label>
-    created_at: string
-    updated_at: string
-    closed_at: string
-    pull_request: Object
+    labels: Label[]
+    createdAt: string
+    updatedAt: string
+    closedAt: string
+    pull_request: object
 }
 
 class GithubApiPRData {
@@ -73,21 +65,21 @@ class GithubApiPRData {
     state: string
     url: string
     title: string
-    created_at: number
-    updated_at: number
-    closed_at: number
-    merged_at: number
+    createdAt: number
+    updatedAt: number
+    closedAt: number
+    mergedAt: number
 
-    constructor(id: number, user: string, state:string, url: string, title: string, created_at: number, updated_at: number, closed_at: number, merged_at: number) {
+    constructor(id: number, user: string, state:string, url: string, title: string, createdAt: number, updatedAt: number, closedAt: number, mergedAt: number) {
         this.id = id;
         this.user = user;
         this.state = state;
         this.url = url;
         this.title = title;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.closed_at = closed_at;
-        this.merged_at = merged_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.closedAt = closedAt;
+        this.mergedAt = mergedAt;
     }
 }
 
@@ -98,12 +90,12 @@ class GithubApiIssueData {
     state: string
     url: string
     title: string
-    labels: Array<string>
-    created_at: number
-    updated_at: number
-    closed_at: number
+    labels: string[]
+    createdAt: number
+    updatedAt: number
+    closedAt: number
 
-    constructor(id: number, user: string, assignee: string, state: string, url: string, title: string, labels: Array<string>, created_at: number, updated_at: number, closed_at: number) {
+    constructor(id: number, user: string, assignee: string, state: string, url: string, title: string, labels: string[], createdAt: number, updatedAt: number, closedAt: number) {
         this.id = id;
         this.user = user;
         this.assignee = assignee;
@@ -111,9 +103,9 @@ class GithubApiIssueData {
         this.url = url;
         this.title = title;
         this.labels = labels;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.closed_at = closed_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.closedAt = closedAt;
     }
 }
 
@@ -130,9 +122,9 @@ class Label {
 }
 
 enum State {
-    Closed = 'closed',
-    Open = 'open',
-    Other = ''
+    Closed = "closed",
+    Open = "open",
+    Other = ""
 }
 
 const orgName = "ghostdogpr"
@@ -140,20 +132,20 @@ const repoName = "caliban"
 
 // method
 export const getPRData = async (pageNum: number = 1) => {
-    const response: AxiosResponse = await getGithubApi<GithubApiPRResponse>(orgName, repoName, 'pulls', pageNum)
+    const response: AxiosResponse = await getGithubApi<GithubApiPRResponse>(orgName, repoName, "pulls", pageNum)
 
     return convertPRData(response.data)
 }
 
 export const getIssueData = async (pageNum: number = 1) => {
-    const response: AxiosResponse = await getGithubApi<GithubApiIssueResponse>(orgName, repoName, 'issues', pageNum)
+    const response: AxiosResponse = await getGithubApi<GithubApiIssueResponse>(orgName, repoName, "issues", pageNum)
 
     return convertIssueData(response.data)
 }
 
 async function getGithubApi<T = any>(org: string, repo: string, path: string, pageNum: number = 1) {
     const paths = `/${org}/${repo}/${path}`
-    const response: AxiosResponse = await apiClient.get<Array<T>>(paths, {
+    const response: AxiosResponse = await apiClient.get<T[]>(paths, {
         params: {
             per_page: pageNum,
             state: "closed"
@@ -162,7 +154,7 @@ async function getGithubApi<T = any>(org: string, repo: string, path: string, pa
     return response
 }
 
-const convertPRData = (data: Array<GithubApiPRResponse>) => {
+const convertPRData = (data: GithubApiPRResponse[]) => {
     return data.map(pr => {
         return new GithubApiPRData(
             pr.id,
@@ -170,18 +162,17 @@ const convertPRData = (data: Array<GithubApiPRResponse>) => {
             pr.state,
             pr.url,
             pr.title,
-            convertToTime(pr.created_at),
-            convertToTime(pr.updated_at),
-            convertToTime(pr.closed_at),
-            convertToTime(pr.merged_at)
+            convertToTime(pr.createdAt),
+            convertToTime(pr.updatedAt),
+            convertToTime(pr.closedAt),
+            convertToTime(pr.mergedAt)
         )
     })
 }
 
-const convertIssueData = (data: Array<GithubApiIssueResponse>) => {
+const convertIssueData = (data: GithubApiIssueResponse[]) => {
     return data.filter(issue => issue.pull_request === undefined)
         .map(issue => {
-        //console.log(issue);
         const labels = issue.labels
             .map(l => l.name)
         return new GithubApiIssueData(
@@ -192,9 +183,9 @@ const convertIssueData = (data: Array<GithubApiIssueResponse>) => {
             issue.url,
             issue.title,
             labels,
-            convertToTime(issue.created_at),
-            convertToTime(issue.updated_at),
-            convertToTime(issue.closed_at)
+            convertToTime(issue.createdAt),
+            convertToTime(issue.updatedAt),
+            convertToTime(issue.closedAt)
         )
     })
 }
