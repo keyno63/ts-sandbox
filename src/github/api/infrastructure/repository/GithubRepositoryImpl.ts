@@ -4,6 +4,7 @@ import {GithubApiIssueData, GithubApiPRData} from "../../domain/model/entity/Git
 import { GithubRepository } from "../../domain/repository/GithubRepository";
 
 const KEY_PULL: string = "pulls"
+const KEY_ISSUE: string = "issues"
 
 export class GithubRepositoryImpl implements GithubRepository {
     apiClient: AxiosInstance
@@ -27,7 +28,7 @@ export class GithubRepositoryImpl implements GithubRepository {
     }
 
     public async getIssues(orgName: string, repoName: string, pageNum: number): Promise<GithubApiIssueData[]> {
-        const response: AxiosResponse = await this.getGithubApi<GithubApiIssueResponse>(orgName, repoName, KEY_PULL, pageNum)
+        const response: AxiosResponse = await this.getGithubApi<GithubApiIssueResponse>(orgName, repoName, KEY_ISSUE, pageNum)
 
         return this.convertIssueData(response.data)
     }
@@ -53,10 +54,10 @@ export class GithubRepositoryImpl implements GithubRepository {
                 pr.state,
                 pr.url,
                 pr.title,
-                this.convertToTime(pr.createdAt),
-                this.convertToTime(pr.updatedAt),
-                this.convertToTime(pr.closedAt),
-                this.convertToTime(pr.mergedAt)
+                this.convertToTime(pr.created_at),
+                this.convertToTime(pr.updated_at),
+                this.convertToTime(pr.closed_at),
+                this.convertToTime(pr.merged_at)
             )
         })
     }
@@ -75,9 +76,9 @@ export class GithubRepositoryImpl implements GithubRepository {
                     issue.url,
                     issue.title,
                     labels,
-                    this.convertToTime(issue.createdAt),
-                    this.convertToTime(issue.updatedAt),
-                    this.convertToTime(issue.closedAt)
+                    this.convertToTime(issue.created_at),
+                    this.convertToTime(issue.updated_at),
+                    this.convertToTime(issue.closed_at)
                 )
 
         })

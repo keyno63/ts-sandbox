@@ -1,4 +1,5 @@
 import axios, {AxiosInstance} from "axios";
+import {IssueOutputData} from "../../domain/model/dto/OutputData";
 
 export class SlackApiSender {
 
@@ -16,14 +17,23 @@ export class SlackApiSender {
             }
         });
     }
-    async send(message: string) {
+
+    public async exec(data: IssueOutputData) {
+        const message: string = data.issues
+            .map(issue => {
+                return `#${issue.number} ${issue.title} ${issue.closed}`
+            }).join("\n")
+        this.send(message)
+    }
+
+    send(message: string) {
         const data = {
             text: message
         }
         this.sender.post(this.webHookPath, data)
             .then(
                 v => console.log(v.data)
-            ).catch(v => console.log("failed to send request. response:" + v.data))
+            )//.catch(v => console.log("failed to send request. response:" + v.data))
     }
 
 }

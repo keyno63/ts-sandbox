@@ -1,7 +1,6 @@
 import {IssueService} from "../../domain/service/IssueService";
-import {GithubApiIssueData, GithubApiPRData} from "../../domain/model/entity/GithubApiData";
 import {GithubRepository} from "../../domain/repository/GithubRepository";
-import {Pulls, PullsOutputData} from "../../domain/model/dto/OutputData";
+import {Issue, IssueOutputData, Pulls, PullsOutputData} from "../../domain/model/dto/OutputData";
 
 export class IssueServiceImpl implements IssueService {
     repository: GithubRepository
@@ -17,7 +16,8 @@ export class IssueServiceImpl implements IssueService {
         return this.repository.getPulls(orgName, repoName, pageNum)
             .then(prs => {
                 const filteredPulls = prs
-                    .filter(pr => IssueServiceImpl.filterLimit(pr.state, pr.closedAt, dt.getTime()))
+                    .filter(pr =>
+                        IssueServiceImpl.filterLimit(pr.state, pr.closedAt, dt.getTime()))
                     .map(filtered => new Pulls(
                         repoName,
                         filtered.number,
@@ -29,9 +29,26 @@ export class IssueServiceImpl implements IssueService {
             })
     }
 
-    public getIssues(orgName: string, repoName: string, pageNum: number): GithubApiIssueData[] {
-        // TODO: impl
-        return [];
+    public getIssues(orgName: string, repoName: string, pageNum: number): Promise<IssueOutputData> {
+        const dt = new Date()
+        dt.setDate(dt.getDate() - 7)
+
+        return this.repository.getIssues(orgName, repoName, pageNum)
+            .then(issues => {
+                const filteredIssues = issues
+                    .filter(issue =>
+                        IssueServiceImpl.filterLimit(issue.state, issue.closedAt, dt.getTime()))
+                    .map(filtered =>
+                        new Issue(
+                            repoName,
+                            filtered.number,
+                            filtered.title,
+                            filtered.labels,
+                            filtered.closedAt
+                        )
+                    )
+                return new IssueOutputData(filteredIssues)
+            })
     }
 
     private static filterLimit(state: string, closed: number, limit: number): boolean {
