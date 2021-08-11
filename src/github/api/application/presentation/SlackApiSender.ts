@@ -23,19 +23,25 @@ export class SlackApiSender implements Viewer {
         const message: string = data.issues
             .map(issue => {
                 const closedTime = new Date(issue.closed).toISOString();
-                return `${issue.repository} issue #${issue.number} "${issue.title}" closed at ${closedTime}`
+                return `  ${issue.repository} #${issue.number} "${issue.title}" closed at ${closedTime}`
             }).join("\n")
-        this.send(message)
+        if (message) {
+            const sendMessage = `recently closed issues:\n${message}`
+            this.send(sendMessage)
+        } else {
+            console.log("not send request to slack")
+        }
     }
 
     public async execPulls(data: PullsOutputData) {
         const message: string = data.pulls
             .map(pull => {
                 const closedTime = new Date(pull.closed).toISOString();
-                return `${pull.repository} pull #${pull.number} "${pull.title}" closed at ${closedTime}`
+                return `  ${pull.repository} #${pull.number} "${pull.title}" closed at ${closedTime}`
             }).join("\n")
         if (message) {
-            this.send(message)
+            const sendMessage = `recently closed pulls:\n${message}`
+            this.send(sendMessage)
         } else {
             console.log("not send request to slack")
         }
