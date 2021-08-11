@@ -27,7 +27,7 @@ export class SlackApiSender implements Viewer {
             }).join("\n")
         const dataMessage = message ? message : "Nothing"
         const sendMessage = `recently closed issues:\n${dataMessage}`
-        this.send(sendMessage)
+        await this.send(sendMessage)
     }
 
     public async execPulls(data: PullsOutputData) {
@@ -38,17 +38,13 @@ export class SlackApiSender implements Viewer {
             }).join("\n")
         const dataMessage = message ? message : "Nothing"
         const sendMessage = `recently closed pulls:\n${dataMessage}`
-        this.send(sendMessage)
+        await this.send(sendMessage)
     }
 
-    send(message: string) {
+    private async send(message: string): Promise<void> {
         const data = {
             text: message
         }
-        this.sender.post(this.webHookPath, data)
-            .then(
-                v => console.log(v.data)
-            )//.catch(v => console.log("failed to send request. response:" + v.data))
+        await this.sender.post(this.webHookPath, data)
     }
-
 }
