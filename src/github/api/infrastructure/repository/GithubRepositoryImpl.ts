@@ -22,6 +22,8 @@ export class GithubRepositoryImpl implements GithubRepository {
 
 
     public async getPulls(orgName: string, repoName: string, pageNum: number): Promise<GithubApiPRData[]> {
+        console.log(`${orgName}/${repoName}`)
+
         const response: AxiosResponse = await this.getGithubApi<GithubApiPRResponse>(orgName, repoName, KEY_PULL, pageNum)
 
         return this.convertPRData(response.data)

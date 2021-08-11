@@ -1,5 +1,6 @@
-import {OutputData} from "../../domain/model/dto/OutputData";
+import {IssueOutputData, OutputData, PullsOutputData} from "../../domain/model/dto/OutputData";
 
 export interface Viewer {
-    exec(data: OutputData): void
+    exec(data: IssueOutputData): void
+    execPulls(data: PullsOutputData): void
 }

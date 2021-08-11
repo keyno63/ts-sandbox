@@ -1,5 +1,5 @@
 import axios, {AxiosInstance} from "axios";
-import {IssueOutputData} from "../../domain/model/dto/OutputData";
+import {IssueOutputData, PullsOutputData} from "../../domain/model/dto/OutputData";
 import {Viewer} from "./Viewer";
 
 export class SlackApiSender implements Viewer {
@@ -22,9 +22,23 @@ export class SlackApiSender implements Viewer {
     public async exec(data: IssueOutputData) {
         const message: string = data.issues
             .map(issue => {
-                return `#${issue.number} ${issue.title} ${issue.closed}`
+                const closedTime = new Date(issue.closed).toISOString();
+                return `#${issue.number} "${issue.title}" ${closedTime}`
             }).join("\n")
         this.send(message)
+    }
+
+    public async execPulls(data: PullsOutputData) {
+        const message: string = data.pulls
+            .map(pull => {
+                const closedTime = new Date(pull.closed).toISOString();
+                return `#${pull.number} "${pull.title}" ${closedTime}`
+            }).join("\n")
+        if (message) {
+            this.send(message)
+        } else {
+            console.log("not send request to slack")
+        }
     }
 
     send(message: string) {
