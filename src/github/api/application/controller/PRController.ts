@@ -16,13 +16,13 @@ export class PRController {
     }
 
     async getPulls() {
+        const repoNames: string[][] = []
         for (let org in this.target) {
-            this.target[org]
-                .forEach(repo =>
-                this.service
-                    .getPulls(org, repo, this.pageNum)
-                    .then(v => this.view.execPulls(v)))
-
+            const tmp = this.target[org].map(repo => `${org}/${repo}`)
+            repoNames.push(tmp)
         }
+        this.service
+            .getPulls(repoNames.reduce((sum, elm) => sum.concat(elm)), this.pageNum)
+            .then(v => this.view.execPulls(v))
     }
 }

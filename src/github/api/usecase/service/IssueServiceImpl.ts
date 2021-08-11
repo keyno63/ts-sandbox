@@ -9,46 +9,52 @@ export class IssueServiceImpl implements IssueService {
         this.repository = repository;
     }
 
-    public getPulls(orgName: string, repoName: string, pageNum: number): Promise<PullsOutputData> {
+    public async getPulls(repoNames: string[], pageNum: number): Promise<PullsOutputData> {
         const dt = new Date()
         dt.setDate(dt.getDate() - 7)
 
-        return this.repository.getPulls(orgName, repoName, pageNum)
-            .then(prs => {
-                const filteredPulls = prs
-                    .filter(pr =>
-                        IssueServiceImpl.filterLimit(pr.state, pr.closedAt, dt.getTime()))
-                    .map(filtered => new Pulls(
-                        repoName,
-                        filtered.number,
-                        filtered.user,
-                        filtered.title,
-                        filtered.closedAt
-                    ))
-                return new PullsOutputData(filteredPulls)
-            })
+        const responses = repoNames.map(repoName =>
+            this.repository.getPulls(repoName, pageNum)
+                .then(prs =>
+                        prs
+                        .filter(pr =>
+                            IssueServiceImpl.filterLimit(pr.state, pr.closedAt, dt.getTime()))
+                        .map(filtered => {
+                            return new Pulls(
+                                repoName,
+                                filtered.number,
+                                filtered.user,
+                                filtered.title,
+                                filtered.closedAt
+                            )
+                        })
+                )
+        )
+        const ret = await Promise.all(responses)
+        return new PullsOutputData(ret.reduce((sum, elm) => sum.concat(elm), []))
     }
 
-    public getIssues(orgName: string, repoName: string, pageNum: number): Promise<IssueOutputData> {
+    public async getIssues(repoNames: string[], pageNum: number): Promise<IssueOutputData> {
         const dt = new Date()
         dt.setDate(dt.getDate() - 7)
 
-        return this.repository.getIssues(orgName, repoName, pageNum)
-            .then(issues => {
-                const filteredIssues = issues
-                    .filter(issue =>
-                        IssueServiceImpl.filterLimit(issue.state, issue.closedAt, dt.getTime()))
-                    .map(filtered =>
-                        new Issue(
+        const responses = repoNames.map(repoName =>
+            this.repository.getIssues(repoName, pageNum)
+                .then(issues =>
+                    issues
+                        .filter(issue =>
+                            IssueServiceImpl.filterLimit(issue.state, issue.closedAt, dt.getTime()))
+                        .map(filtered => new Issue(
                             repoName,
                             filtered.number,
                             filtered.title,
                             filtered.labels,
                             filtered.closedAt
-                        )
-                    )
-                return new IssueOutputData(filteredIssues)
-            })
+                        ))
+                )
+        )
+        const ret = await Promise.all(responses)
+        return new IssueOutputData(ret.reduce((sum, elm) => sum.concat(elm), []))
     }
 
     private static filterLimit(state: string, closed: number, limit: number): boolean {

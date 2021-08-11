@@ -16,12 +16,13 @@ export class IssueController {
     }
 
     async getIssues() {
+        const repoNames: string[][] = []
         for (let org in this.target) {
-            this.target[org]
-                .forEach(repo =>
-                    this.service
-                        .getIssues(org, repo, this.pageNum)
-                        .then(v => this.view.exec(v)))
+            const tmp = this.target[org].map(repo => `${org}/${repo}`)
+            repoNames.push(tmp)
         }
+        this.service
+            .getIssues(repoNames.reduce((sum, elm) => sum.concat(elm)), this.pageNum)
+            .then(v => this.view.exec(v))
     }
 }

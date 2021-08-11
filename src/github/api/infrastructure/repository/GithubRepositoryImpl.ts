@@ -21,22 +21,20 @@ export class GithubRepositoryImpl implements GithubRepository {
     }
 
 
-    public async getPulls(orgName: string, repoName: string, pageNum: number): Promise<GithubApiPRData[]> {
-        console.log(`${orgName}/${repoName}`)
-
-        const response: AxiosResponse = await this.getGithubApi<GithubApiPRResponse>(orgName, repoName, KEY_PULL, pageNum)
+    public async getPulls(repoName: string, pageNum: number): Promise<GithubApiPRData[]> {
+        const response: AxiosResponse = await this.getGithubApi<GithubApiPRResponse>(repoName, KEY_PULL, pageNum)
 
         return this.convertPRData(response.data)
     }
 
-    public async getIssues(orgName: string, repoName: string, pageNum: number): Promise<GithubApiIssueData[]> {
-        const response: AxiosResponse = await this.getGithubApi<GithubApiIssueResponse>(orgName, repoName, KEY_ISSUE, pageNum)
+    public async getIssues(repoName: string, pageNum: number): Promise<GithubApiIssueData[]> {
+        const response: AxiosResponse = await this.getGithubApi<GithubApiIssueResponse>(repoName, KEY_ISSUE, pageNum)
 
         return this.convertIssueData(response.data)
     }
 
-    public async getGithubApi<T = any>(org: string, repo: string, path: string, pageNum: number = 1) {
-        const paths = `/${org}/${repo}/${path}`
+    public async getGithubApi<T = any>(repo: string, path: string, pageNum: number = 1) {
+        const paths = `/${repo}/${path}`
         const response: AxiosResponse = await this.apiClient
             .get<T[]>(paths, {
             params: {

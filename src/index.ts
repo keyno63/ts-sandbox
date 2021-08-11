@@ -8,8 +8,7 @@ import {Console} from "./github/api/application/presentation/Console";
 
 
 const target: { [key: string]: string[] } = {
-    //keyno63: ["ts-sandbox", "go-mod-sandbox"],
-    ghostdogpr: ["caliban"],
+    keyno63: ["ts-sandbox", "go-mod-sandbox"],
 }
 const conf = new Config(target, 10)
 
