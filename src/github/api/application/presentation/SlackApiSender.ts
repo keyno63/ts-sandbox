@@ -1,7 +1,8 @@
 import axios, {AxiosInstance} from "axios";
 import {IssueOutputData} from "../../domain/model/dto/OutputData";
+import {Viewer} from "./Viewer";
 
-export class SlackApiSender {
+export class SlackApiSender implements Viewer {
 
     sender: AxiosInstance
     webHookPath: string

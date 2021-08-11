@@ -1,12 +1,12 @@
 import {IssueService} from "../../domain/service/IssueService";
-import {SlackApiSender} from "../presentation/SlackApiSender";
+import {Viewer} from "../presentation/Viewer";
 
 export class IssueController {
     service: IssueService
-    view: SlackApiSender
+    view: Viewer
     pageNum: number
 
-    constructor(service: IssueService, view: SlackApiSender) {
+    constructor(service: IssueService, view: Viewer) {
         this.service = service
         this.view = view
         // あとで設定ファイルにする

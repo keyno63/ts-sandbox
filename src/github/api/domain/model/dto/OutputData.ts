@@ -1,5 +1,6 @@
+export interface OutputData {}
 
-export class IssueOutputData {
+export class IssueOutputData implements OutputData {
     issues: Issue[]
     constructor(issues: Issue[]) {
         this.issues = issues;
@@ -23,7 +24,7 @@ export class Issue {
     }
 }
 
-export class PullsOutputData {
+export class PullsOutputData implements OutputData　{
     pulls: Pulls[]
     constructor(pulls: Pulls[]) {
         this.pulls = pulls;
