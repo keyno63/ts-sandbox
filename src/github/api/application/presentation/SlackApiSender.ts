@@ -1,17 +1,18 @@
 import axios, {AxiosInstance} from "axios";
 import {IssueOutputData, PullsOutputData} from "../../domain/model/dto/OutputData";
 import {Viewer} from "./Viewer";
+import {IConfig} from "config";
 
 export class SlackApiSender implements Viewer {
 
     sender: AxiosInstance
     webHookPath: string
 
-    constructor(path: string) {
-        this.webHookPath = path
+    constructor(config: IConfig) {
+        this.webHookPath = config.get("slack.web-hook-path")
 
         this.sender = axios.create({
-            baseURL: "https://hooks.slack.com/services",
+            baseURL: config.get("slack.base-url"),
             responseType: "json",
             headers: {
                 "Content-Type": "application/json"

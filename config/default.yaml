@@ -8,3 +8,7 @@ target:
 
 request:
   page-num: 100
+
+slack:
+  web-hook-path: ""
+  base-url: "https://hooks.slack.com/services"
