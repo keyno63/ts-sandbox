@@ -12,7 +12,7 @@ export class PullsController {
         this.service = service;
         this.view = view;
         this.target = config.get("target.repos")
-        this.pageNum = config.get("request.pageNum")
+        this.pageNum = config.get("request.page-num")
     }
 
     async getPulls() {

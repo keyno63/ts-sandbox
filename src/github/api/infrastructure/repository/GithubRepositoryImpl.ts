@@ -13,7 +13,7 @@ export class GithubRepositoryImpl implements GithubRepository {
     constructor(config: IConfig) {
 
         this.apiClient = axios.create({
-            baseURL: config.get('target.baseUrl'),
+            baseURL: config.get('target.base-url'),
             responseType: "json",
             headers: {
                 "Content-Type": "application/json"

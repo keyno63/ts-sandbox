@@ -1,10 +1,10 @@
 ---
 target:
-  baseUrl: https://api.github.com/repos
+  base-url: https://api.github.com/repos
   repos:
     keyno63:
       - ts-sandbox
       - go-mod-sandbox
 
 request:
-  pageNum: 100
+  page-num: 100
