@@ -7,7 +7,12 @@ target:
       - go-mod-sandbox
 
 request:
-  page-num: 100
+  issues:
+    page-num: 100
+    span: 7 # days
+  pulls:
+    page-num: 100
+    span: 7 # days
 
 slack:
   web-hook-path: ""

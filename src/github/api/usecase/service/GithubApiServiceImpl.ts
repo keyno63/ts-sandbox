@@ -8,9 +8,9 @@ export class GithubApiServiceImpl implements GithubApiService {
     constructor(repository: GithubRepository) {
         this.repository = repository;
     }
-    public async getPulls(repoNames: string[], pageNum: number): Promise<PullsOutputData> {
+    public async getPulls(repoNames: string[], pageNum: number, span: number): Promise<PullsOutputData> {
         const dt = new Date()
-        dt.setDate(dt.getDate() - 7)
+        dt.setDate(dt.getDate() - span)
 
         const responses = repoNames.map(repoName =>
             this.repository.getPulls(repoName, pageNum)
@@ -33,9 +33,9 @@ export class GithubApiServiceImpl implements GithubApiService {
         return new PullsOutputData(ret.reduce((sum, elm) => sum.concat(elm), []))
     }
 
-    public async getIssues(repoNames: string[], pageNum: number): Promise<IssueOutputData> {
+    public async getIssues(repoNames: string[], pageNum: number, span: number): Promise<IssueOutputData> {
         const dt = new Date()
-        dt.setDate(dt.getDate() - 7)
+        dt.setDate(dt.getDate() - span)
 
         const responses = repoNames.map(repoName =>
             this.repository.getIssues(repoName, pageNum)

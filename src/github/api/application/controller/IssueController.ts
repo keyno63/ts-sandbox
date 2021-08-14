@@ -7,12 +7,14 @@ export class IssueController {
     view: Viewer
     target: { [key: string]: string[] }
     pageNum: number
+    span: number
 
     constructor(service: GithubApiService, view: Viewer, config: IConfig) {
         this.service = service
         this.view = view
         this.target = config.get("target.repos")
-        this.pageNum = config.get("request.page-num")
+        this.pageNum = config.get("request.issues.page-num")
+        this.span = config.get("request.issues.span")
     }
 
     async getIssues() {
@@ -22,7 +24,7 @@ export class IssueController {
             repoNames.push(tmp)
         }
         this.service
-            .getIssues(repoNames.reduce((sum, elm) => sum.concat(elm)), this.pageNum)
+            .getIssues(repoNames.reduce((sum, elm) => sum.concat(elm)), this.pageNum, this.span)
             .then(v => this.view.exec(v))
     }
 }

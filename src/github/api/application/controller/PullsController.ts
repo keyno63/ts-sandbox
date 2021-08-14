@@ -7,12 +7,14 @@ export class PullsController {
     view: Viewer
     target: { [key: string]: string[] }
     pageNum: number
+    span: number
 
     constructor(service: GithubApiService, view: Viewer, config: IConfig) {
         this.service = service;
         this.view = view;
         this.target = config.get("target.repos")
-        this.pageNum = config.get("request.page-num")
+        this.pageNum = config.get("request.pulls.page-num")
+        this.span = config.get("request.pulls.span")
     }
 
     async getPulls() {
@@ -22,7 +24,7 @@ export class PullsController {
             repoNames.push(tmp)
         }
         this.service
-            .getPulls(repoNames.reduce((sum, elm) => sum.concat(elm)), this.pageNum)
+            .getPulls(repoNames.reduce((sum, elm) => sum.concat(elm)), this.pageNum, this.span)
             .then(v => this.view.execPulls(v))
     }
 }
