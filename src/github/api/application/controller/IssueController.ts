@@ -1,14 +1,14 @@
-import {IssueService} from "../../domain/service/IssueService";
+import {GithubApiService} from "../../domain/service/GithubApiService";
 import {Viewer} from "../presentation/Viewer";
 import {IConfig} from "config";
 
 export class IssueController {
-    service: IssueService
+    service: GithubApiService
     view: Viewer
     target: { [key: string]: string[] }
     pageNum: number
 
-    constructor(service: IssueService, view: Viewer, config: IConfig) {
+    constructor(service: GithubApiService, view: Viewer, config: IConfig) {
         this.service = service
         this.view = view
         this.target = config.get("target.repos")

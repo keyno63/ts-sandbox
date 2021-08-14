@@ -1,14 +1,13 @@
-import {IssueService} from "../../domain/service/IssueService";
+import {GithubApiService} from "../../domain/service/GithubApiService";
 import {GithubRepository} from "../../domain/repository/GithubRepository";
 import {Issue, IssueOutputData, Pulls, PullsOutputData} from "../../domain/model/dto/OutputData";
 
-export class IssueServiceImpl implements IssueService {
+export class GithubApiServiceImpl implements GithubApiService {
     repository: GithubRepository
 
     constructor(repository: GithubRepository) {
         this.repository = repository;
     }
-
     public async getPulls(repoNames: string[], pageNum: number): Promise<PullsOutputData> {
         const dt = new Date()
         dt.setDate(dt.getDate() - 7)
@@ -18,7 +17,7 @@ export class IssueServiceImpl implements IssueService {
                 .then(prs =>
                         prs
                         .filter(pr =>
-                            IssueServiceImpl.filterLimit(pr.state, pr.closedAt, dt.getTime()))
+                            GithubApiServiceImpl.filterLimit(pr.state, pr.closedAt, dt.getTime()))
                         .map(filtered => {
                             return new Pulls(
                                 repoName,
@@ -43,7 +42,7 @@ export class IssueServiceImpl implements IssueService {
                 .then(issues =>
                     issues
                         .filter(issue =>
-                            IssueServiceImpl.filterLimit(issue.state, issue.closedAt, dt.getTime()))
+                            GithubApiServiceImpl.filterLimit(issue.state, issue.closedAt, dt.getTime()))
                         .map(filtered => new Issue(
                             repoName,
                             filtered.number,

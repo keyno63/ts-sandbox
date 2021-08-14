@@ -1,8 +1,8 @@
 import {asClass, asValue, AwilixContainer, createContainer, InjectionMode} from "awilix";
 import config from "config";
 import {IssueController} from "./github/api/application/controller/IssueController";
-import {PRController} from "./github/api/application/controller/PRController";
-import {IssueServiceImpl} from "./github/api/usecase/service/IssueServiceImpl";
+import {PullsController} from "./github/api/application/controller/PullsController";
+import {GithubApiServiceImpl} from "./github/api/usecase/service/GithubApiServiceImpl";
 import {GithubRepositoryImpl} from "./github/api/infrastructure/repository/GithubRepositoryImpl";
 import {Console} from "./github/api/application/presentation/Console";
 
@@ -15,8 +15,8 @@ const container: AwilixContainer = createContainer(
 container.register(
     {
         issueController: asClass(IssueController),
-        pullsController: asClass(PRController),
-        service: asClass(IssueServiceImpl),
+        pullsController: asClass(PullsController),
+        service: asClass(GithubApiServiceImpl),
         repository: asClass(GithubRepositoryImpl),
         view: asClass(Console),
         config: asValue(config),
