@@ -1,6 +1,6 @@
 import {IssueService} from "../../domain/service/IssueService";
 import {Viewer} from "../presentation/Viewer";
-import {Config} from "../../../../config/Config";
+import {IConfig} from "config";
 
 export class PRController {
     service: IssueService
@@ -8,11 +8,11 @@ export class PRController {
     target: { [key: string]: string[] }
     pageNum: number
 
-    constructor(service: IssueService, view: Viewer, config: Config) {
+    constructor(service: IssueService, view: Viewer, config: IConfig) {
         this.service = service;
         this.view = view;
-        this.target = config.target
-        this.pageNum = config.pageNum
+        this.target = config.get("target.repos")
+        this.pageNum = config.get("request.pageNum")
     }
 
     async getPulls() {

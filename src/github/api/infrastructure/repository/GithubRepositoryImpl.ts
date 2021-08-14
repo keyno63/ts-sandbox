@@ -2,6 +2,7 @@ import axios, {AxiosInstance, AxiosResponse} from "axios";
 import {GithubApiIssueResponse, GithubApiPRResponse} from "../../domain/model/dto/GithubApiResponse";
 import {GithubApiIssueData, GithubApiPRData} from "../../domain/model/entity/GithubApiData";
 import { GithubRepository } from "../../domain/repository/GithubRepository";
+import {IConfig} from "config";
 
 const KEY_PULL: string = "pulls"
 const KEY_ISSUE: string = "issues"
@@ -9,10 +10,10 @@ const KEY_ISSUE: string = "issues"
 export class GithubRepositoryImpl implements GithubRepository {
     apiClient: AxiosInstance
 
-    constructor(targetBaseUrl: string) {
+    constructor(config: IConfig) {
 
         this.apiClient = axios.create({
-            baseURL: targetBaseUrl,
+            baseURL: config.get('target.baseUrl'),
             responseType: "json",
             headers: {
                 "Content-Type": "application/json"
