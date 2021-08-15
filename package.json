@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "tslint src/*",
-    "install_lib": "npm install --save axios",
+    "install_lib": "npm install",
     "install_ts": "npm install typescript --save-dev",
     "ts_init": "npx tsc --init",
     "build": "npx tsc",
@@ -18,10 +18,14 @@
   "license": "MIT",
   "devDependencies": {
     "@types/config": "^0.0.39",
+    "@types/jest": "^27.0.1",
     "@types/js-yaml": "^4.0.2",
-    "typescript": "^4.3.5",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.4",
+    "ts-node": "^10.2.0",
     "tslint": "^6.1.3",
-    "tslint-config-prettier": "^1.18.0"
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.3.5"
   },
   "dependencies": {
     "axios": "^0.21.1",
