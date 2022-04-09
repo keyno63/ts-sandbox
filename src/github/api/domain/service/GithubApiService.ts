@@ -1,4 +1,4 @@
-import {IssueOutputData, PullsOutputData} from "../model/dto/OutputData";
+import {IssueOutputData, PullsOutputData} from "@src/github/api/domain/model/dto/OutputData";
 
 export interface GithubApiService {
     getPulls(repoNames: string[], pageNum: number, span: number): Promise<PullsOutputData>

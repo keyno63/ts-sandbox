@@ -1,7 +1,7 @@
 import axios, {AxiosInstance, AxiosResponse} from "axios";
-import {GithubApiIssueResponse, GithubApiPRResponse} from "../../domain/model/dto/GithubApiResponse";
-import {GithubApiIssueData, GithubApiPRData} from "../../domain/model/entity/GithubApiData";
-import { GithubRepository } from "../../domain/repository/GithubRepository";
+import {GithubApiIssueResponse, GithubApiPRResponse} from "@src/github/api/domain/model/dto/GithubApiResponse";
+import {GithubApiIssueData, GithubApiPRData} from "@src/github/api/domain/model/entity/GithubApiData";
+import { GithubRepository } from "@src/github/api/domain/repository/GithubRepository";
 import {IConfig} from "config";
 
 const KEY_PULL: string = "pulls"

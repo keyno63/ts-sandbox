@@ -1,5 +1,5 @@
-import {GithubApiService} from "../../domain/service/GithubApiService";
-import {GithubRepository} from "../../domain/repository/GithubRepository";
+import {GithubApiService} from "@src/github/api/domain/service/GithubApiService";
+import {GithubRepository} from "@src/github/api/domain/repository/GithubRepository";
 import {Issue, IssueOutputData, Pulls, PullsOutputData} from "../../domain/model/dto/OutputData";
 
 export class GithubApiServiceImpl implements GithubApiService {
