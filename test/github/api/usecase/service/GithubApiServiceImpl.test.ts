@@ -9,6 +9,11 @@ import {
 } from "../../../../../src/github/api/domain/model/dto/OutputData";
 
 jest.mock("../../../../../src/github/api/domain/repository/GithubRepository")
+
+const mockDate = new Date(1628985000000);
+const spy = jest.spyOn(global, 'Date')
+    .mockImplementation(() => (mockDate as unknown) as string);
+
 const RepositoryMock = jest.fn<GithubRepository, []>()
     .mockImplementation(() => {
         return {
