@@ -3,6 +3,12 @@
  * https://jestjs.io/docs/configuration
  */
 
+const { pathsToModuleNameMapper } = require("ts-jest/utils");
+const { readFileSync } = require("fs");
+const { parse } = require("jsonc-parser");
+const { compilerOptions } = parse(readFileSync("./tsconfig.json").toString());
+const moduleNameMapper = pathsToModuleNameMapper(compilerOptions.paths, { prefix: "<rootDir>/" });
+
 export default {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -201,5 +207,13 @@ export default {
 
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest"
+  },
+
+  moduleNameMapper,
+
+  globals: {
+    "ts-jest": {
+      tsconfig: "tsconfig.jest.json",
+    },
   },
 };
