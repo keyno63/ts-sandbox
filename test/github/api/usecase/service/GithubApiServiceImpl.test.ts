@@ -1,14 +1,14 @@
-import {GithubApiServiceImpl} from "../../../../../src/github/api/usecase/service/GithubApiServiceImpl";
-import {GithubRepository} from "../../../../../src/github/api/domain/repository/GithubRepository";
-import {GithubApiPRData, GithubApiIssueData} from "../../../../../src/github/api/domain/model/entity/GithubApiData";
+import {GithubApiServiceImpl} from "@src/github/api/usecase/service/GithubApiServiceImpl";
+import {GithubRepository} from "@src/github/api/domain/repository/GithubRepository";
+import {GithubApiPRData, GithubApiIssueData} from "@src/github/api/domain/model/entity/GithubApiData";
 import {
     Issue,
     IssueOutputData,
     Pulls,
     PullsOutputData
-} from "../../../../../src/github/api/domain/model/dto/OutputData";
+} from "@src/github/api/domain/model/dto/OutputData";
 
-jest.mock("../../../../../src/github/api/domain/repository/GithubRepository")
+jest.mock("@src/github/api/domain/repository/GithubRepository")
 
 const mockDate = new Date(1628985000000);
 const spy = jest.spyOn(global, 'Date')

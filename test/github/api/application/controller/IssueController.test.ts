@@ -3,10 +3,10 @@ import {
     IssueOutputData,
     Pulls,
     PullsOutputData
-} from "../../../../../src/github/api/domain/model/dto/OutputData";
-import {GithubApiService} from "../../../../../src/github/api/domain/service/GithubApiService";
-import {IssueController} from "../../../../../src/github/api/application/controller/IssueController";
-import {Viewer} from "../../../../../src/github/api/application/presentation/Viewer";
+} from "@src/github/api/domain/model/dto/OutputData";
+import {GithubApiService} from "@src/github/api/domain/service/GithubApiService";
+import {IssueController} from "@src/github/api/application/controller/IssueController";
+import {Viewer} from "@src/github/api/application/presentation/Viewer";
 import {IConfig} from "config";
 
 const ServiceMock = jest.fn<GithubApiService, []>()
